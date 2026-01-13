@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ZenClock | 幻象時鐘 - 極簡科幻數位時鐘</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="高品質、科幻感、時尚簡約的數位時鐘網頁。支援中英日韓四國語言切換，專為專注、工作及全螢幕裝飾設計。">
+    <meta name="keywords" content="cyberpunk clock, neon clock, digital clock, minimalist clock, zen clock, online clock, 賽博龐克, 時鐘, 數位時鐘, 極簡時鐘, 網頁時鐘, 幻象時鐘">
+    <meta name="author" content="ZenClock">
+    <meta property="og:title" content="ZenClock - 幻象時鐘 - 極簡科幻美學">
+    <meta property="og:description" content="專為現代美學打造的科幻霓虹時鐘，支援多語言與全螢幕模式。">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="https://picsum.photos/32/32?grayscale">
+
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-ET6CBDWRZQ"></script>
     <script>
@@ -12,26 +22,20 @@
       gtag('js', new Date());
       gtag('config', 'G-ET6CBDWRZQ');
     </script>
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="高品質、科幻感、時尚簡約的數位時鐘網頁。支援中英日韓四國語言切換，專為專注、工作及全螢幕裝飾設計，具備柔和霓虹效果。">
-    <meta name="keywords" content="cyberpunk clock, yellow neon clock, digital clock, minimalist clock, zen clock, online clock, neon clock, 賽博龐克, 時鐘, 數位時鐘, 極簡時鐘, 網頁時鐘, 幻象時鐘">
-    <meta name="author" content="ZenClock">
-    <meta property="og:title" content="ZenClock - 幻象時鐘 - 極簡科幻美學">
-    <meta property="og:description" content="專為現代美學打造的科幻霓虹時鐘，支援多語言與全螢幕模式。">
-    <meta property="og:type" content="website">
-    <link rel="icon" href="https://picsum.photos/32/32?grayscale">
     
-    <!-- Tailwind CSS -->
+    <!-- Dependencies -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
     <script>
       tailwind.config = {
-        darkMode: 'class',
         theme: {
           extend: {
             colors: {
               cyber: {
                 cyan: '#00f3ff',
-                magenta: '#ff00ff',
                 yellow: '#f3f315',
                 neonYellow: '#ffea00',
                 blue: '#0055ff',
@@ -39,100 +43,151 @@
                 dark: '#050505'
               }
             },
-            fontFamily: {
-              sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-              mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
-            },
             animation: {
               'pulse-stealth': 'pulseStealth 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
               'scanline': 'scanline 12s linear infinite',
             },
             keyframes: {
-              pulseStealth: {
-                '0%, 100%': { opacity: 0.1 },
-                '50%': { opacity: 0.4 },
-              },
-              scanline: {
-                '0%': { transform: 'translateY(-100%)' },
-                '100%': { transform: 'translateY(100%)' },
-              }
+              pulseStealth: { '0%, 100%': { opacity: 0.1 }, '50%': { opacity: 0.3 } },
+              scanline: { '0%': { transform: 'translateY(-100%)' }, '100%': { transform: 'translateY(100%)' } }
             }
           }
         }
       }
     </script>
+
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
-      
-      body, html {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        overflow: hidden;
-        user-select: none;
-      }
-
-      #root {
-        height: 100%;
-      }
-
-      .clock-digit {
-        font-variant-numeric: tabular-nums;
-        letter-spacing: -0.05em;
-      }
-
-      .neon-yellow-shadow {
-        text-shadow: 0 0 10px #ffea00, 0 0 20px #ffea0044;
-      }
-
-      .neon-blue-shadow {
-        text-shadow: 0 0 8px #00d2ff, 0 0 16px #00d2ff66;
-      }
-      
-      .theme-transition {
-        transition: background-color 0.8s cubic-bezier(0.4, 0, 0.2, 1), color 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap');
+      body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: 'Inter', sans-serif; background: #000; }
+      .clock-digit { font-variant-numeric: tabular-nums; letter-spacing: -0.05em; font-family: 'JetBrains Mono', monospace; }
+      .neon-yellow-shadow { text-shadow: 0 0 10px #ffea00, 0 0 30px #ffea0033; }
+      .neon-blue-shadow { text-shadow: 0 0 8px #00d2ff, 0 0 20px #00d2ff44; }
+      .theme-transition { transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
       .scanlines::before {
-        content: " ";
-        display: block;
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 118, 0.06));
-        z-index: 2;
-        background-size: 100% 4px, 3px 100%;
-        pointer-events: none;
+        content: " "; display: block; position: absolute; top: 0; left: 0; bottom: 0; right: 0;
+        background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 118, 0.03));
+        z-index: 2; background-size: 100% 4px, 3px 100%; pointer-events: none;
       }
-
-      .cyber-border {
-        clip-path: polygon(0 0, 100% 0, 100% 85%, 90% 100%, 0 100%);
-      }
-
       .noise {
-        position: fixed;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        background: url('https://grainy-gradients.vercel.app/noise.svg');
-        opacity: 0.05;
-        pointer-events: none;
-        z-index: 10;
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: url('https://grainy-gradients.vercel.app/noise.svg'); opacity: 0.03; pointer-events: none; z-index: 5;
       }
+      .cyber-border { clip-path: polygon(0 0, 100% 0, 100% 88%, 92% 100%, 0 100%); }
     </style>
-<script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@^19.2.3",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "react/": "https://esm.sh/react@^19.2.3/"
-  }
-}
-</script>
 </head>
-<body class="theme-transition">
-    <div id="root"></div>
-    <script type="module" src="index.tsx"></script>
+<body>
+    <div id="root" class="h-full"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useCallback, useMemo } = React;
+
+        const TRANSLATIONS = {
+            en: { settings: 'Settings', language: 'Language', fullscreen: 'Fullscreen', exitFullscreen: 'Exit', cyberMode: 'Sci-Fi Mode', dayNames: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] },
+            zh: { settings: '系統設置', language: '語言選擇', fullscreen: '全螢幕', exitFullscreen: '退出全螢幕', cyberMode: '科幻模式', dayNames: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'] },
+            ja: { settings: '設定', language: '言語選択', fullscreen: '全画面', exitFullscreen: '全画面解除', cyberMode: 'サイバーモード', dayNames: ['日曜日', '月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日'] },
+            ko: { settings: '설정', language: '언어 선택', fullscreen: '전체 화면', exitFullscreen: '전체 화면 종료', cyberMode: '사이버 모드', dayNames: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토曜日'] }
+        };
+
+        const App = () => {
+            const [time, setTime] = useState(new Date());
+            const [locale, setLocale] = useState('zh');
+            const [isCyberMode, setIsCyberMode] = useState(true);
+            const [showSettings, setShowSettings] = useState(false);
+            const [isFullscreen, setIsFullscreen] = useState(false);
+
+            useEffect(() => {
+                const browserLang = navigator.language.split('-')[0];
+                if (TRANSLATIONS[browserLang]) setLocale(browserLang);
+                const timer = setInterval(() => setTime(new Date()), 1000);
+                return () => clearInterval(timer);
+            }, []);
+
+            const toggleFullscreen = useCallback(() => {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen();
+                    setIsFullscreen(true);
+                } else {
+                    document.exitFullscreen();
+                    setIsFullscreen(false);
+                }
+            }, []);
+
+            const t = useMemo(() => TRANSLATIONS[locale], [locale]);
+            const hours = time.getHours().toString().padStart(2, '0');
+            const minutes = time.getMinutes().toString().padStart(2, '0');
+            const seconds = time.getSeconds().toString().padStart(2, '0');
+
+            const dateStr = time.toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' });
+            const dayStr = t.dayNames[time.getDay()];
+
+            return (
+                <div className={`h-screen w-full flex flex-col items-center justify-center relative overflow-hidden theme-transition ${isCyberMode ? 'bg-cyber-dark text-white' : 'bg-white text-zinc-900'}`}>
+                    {isCyberMode && (
+                        <>
+                            <div className="scanlines absolute inset-0 opacity-20 pointer-events-none z-0"></div>
+                            <div className="noise"></div>
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] bg-cyber-blue/5 rounded-full blur-[100px] animate-pulse-stealth"></div>
+                        </>
+                    )}
+
+                    <header className="fixed top-0 left-0 right-0 p-6 md:p-10 flex justify-end z-20">
+                        <button onClick={() => setShowSettings(true)} className={`p-2 rounded-full transition-all ${isCyberMode ? 'text-cyber-cyan hover:bg-cyber-cyan/10' : 'text-zinc-400 hover:bg-zinc-100'}`}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                        </button>
+                    </header>
+
+                    <main className="flex flex-col items-center justify-center z-10 w-full h-full text-center">
+                        <div className={`flex items-baseline justify-center space-x-2 md:space-x-8 ${isCyberMode ? 'text-cyber-neonYellow neon-yellow-shadow' : 'text-zinc-900'}`}>
+                            <div className="clock-digit text-[22vw] sm:text-[22vw] md:text-[24vw] leading-none font-light">{hours}</div>
+                            <div className="text-[14vw] font-thin leading-none opacity-40 animate-pulse-stealth">:</div>
+                            <div className="clock-digit text-[22vw] sm:text-[22vw] md:text-[24vw] leading-none font-light">{minutes}</div>
+                            <div className="clock-digit text-[6vw] opacity-20 ml-2 md:ml-8 leading-none font-light self-center">{seconds}</div>
+                        </div>
+                        <div className={`mt-10 md:mt-16 flex flex-col items-center gap-3 transition-all duration-500 ${isCyberMode ? 'text-cyber-neonBlue neon-blue-shadow' : 'text-zinc-400'}`}>
+                            <p className="text-xl md:text-4xl lg:text-5xl font-light tracking-[0.4em] uppercase">{dateStr}</p>
+                            <p className="text-base md:text-2xl lg:text-3xl font-light tracking-[0.8em] uppercase opacity-70">{dayStr}</p>
+                        </div>
+                    </main>
+
+                    {showSettings && (
+                        <div className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-50 p-4" onClick={() => setShowSettings(false)}>
+                            <div className={`w-full max-w-sm p-6 md:p-8 rounded-3xl border transition-all max-h-[90vh] overflow-y-auto ${isCyberMode ? 'bg-cyber-dark border-cyber-cyan/30 text-white cyber-border shadow-2xl shadow-cyber-cyan/10' : 'bg-white border-zinc-100 text-zinc-900 shadow-xl'}`} onClick={e => e.stopPropagation()}>
+                                <div className="flex justify-between items-center mb-10">
+                                    <h2 className={`text-xl font-medium tracking-tight ${isCyberMode ? 'text-cyber-cyan uppercase' : ''}`}>{t.settings}</h2>
+                                    <button onClick={() => setShowSettings(false)} className="opacity-40 hover:opacity-100 transition-opacity p-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                                    </button>
+                                </div>
+                                <div className="space-y-10">
+                                    <div className="flex justify-between items-center">
+                                        <span className={`font-light ${isCyberMode ? 'text-cyber-cyan' : 'text-zinc-600'}`}>{t.cyberMode}</span>
+                                        <button onClick={() => setIsCyberMode(!isCyberMode)} className={`w-14 h-7 rounded-full relative transition-all ${isCyberMode ? 'bg-cyber-cyan shadow-[0_0_15px_#00f3ff]' : 'bg-zinc-200'}`}>
+                                            <div className={`absolute top-1 left-1 w-5 h-5 rounded-full bg-white transition-all ${isCyberMode ? 'translate-x-7' : ''}`}></div>
+                                        </button>
+                                    </div>
+                                    <div className="space-y-4">
+                                        <span className={`text-xs uppercase tracking-widest opacity-40 ${isCyberMode ? 'text-cyber-neonBlue' : ''}`}>{t.language}</span>
+                                        <div className="grid grid-cols-2 gap-2">
+                                            {['zh', 'en', 'ja', 'ko'].map(code => (
+                                                <button key={code} onClick={() => setLocale(code)} className={`py-2 px-3 rounded-xl border text-sm transition-all ${locale === code ? (isCyberMode ? 'bg-cyber-cyan text-cyber-dark border-transparent shadow-lg' : 'bg-zinc-900 text-white border-transparent') : (isCyberMode ? 'border-cyber-cyan/20 text-zinc-400 hover:border-cyber-cyan/50' : 'border-zinc-100 text-zinc-500 hover:bg-zinc-50')}`}>
+                                                    {code === 'zh' ? '中文' : code === 'en' ? 'English' : code === 'ja' ? '日本語' : '한국어'}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    <button onClick={toggleFullscreen} className={`w-full py-4 rounded-xl border font-light tracking-widest uppercase text-sm transition-all ${isCyberMode ? 'border-cyber-blue/30 text-cyber-neonBlue hover:bg-cyber-blue/10' : 'border-zinc-200 text-zinc-700 hover:bg-zinc-50'}`}>
+                                        {isFullscreen ? t.exitFullscreen : t.fullscreen}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
 </body>
 </html>
