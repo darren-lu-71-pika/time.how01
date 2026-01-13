@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZenClock | 幻象時鐘 - 極簡科幻數位時鐘</title>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ET6CBDWRZQ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-ET6CBDWRZQ');
+    </script>
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="高品質、科幻感、時尚簡約的數位時鐘網頁。支援中英日韓四國語言切換，專為專注、工作及全螢幕裝飾設計，具備柔和霓虹效果。">
+    <meta name="keywords" content="cyberpunk clock, yellow neon clock, digital clock, minimalist clock, zen clock, online clock, neon clock, 賽博龐克, 時鐘, 數位時鐘, 極簡時鐘, 網頁時鐘, 幻象時鐘">
+    <meta name="author" content="ZenClock">
+    <meta property="og:title" content="ZenClock - 幻象時鐘 - 極簡科幻美學">
+    <meta property="og:description" content="專為現代美學打造的科幻霓虹時鐘，支援多語言與全螢幕模式。">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="https://picsum.photos/32/32?grayscale">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              cyber: {
+                cyan: '#00f3ff',
+                magenta: '#ff00ff',
+                yellow: '#f3f315',
+                neonYellow: '#ffea00',
+                blue: '#0055ff',
+                neonBlue: '#00d2ff',
+                dark: '#050505'
+              }
+            },
+            fontFamily: {
+              sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+              mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+            },
+            animation: {
+              'pulse-stealth': 'pulseStealth 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'scanline': 'scanline 12s linear infinite',
+            },
+            keyframes: {
+              pulseStealth: {
+                '0%, 100%': { opacity: 0.1 },
+                '50%': { opacity: 0.4 },
+              },
+              scanline: {
+                '0%': { transform: 'translateY(-100%)' },
+                '100%': { transform: 'translateY(100%)' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+      
+      body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+        user-select: none;
+      }
+
+      #root {
+        height: 100%;
+      }
+
+      .clock-digit {
+        font-variant-numeric: tabular-nums;
+        letter-spacing: -0.05em;
+      }
+
+      .neon-yellow-shadow {
+        text-shadow: 0 0 10px #ffea00, 0 0 20px #ffea0044;
+      }
+
+      .neon-blue-shadow {
+        text-shadow: 0 0 8px #00d2ff, 0 0 16px #00d2ff66;
+      }
+      
+      .theme-transition {
+        transition: background-color 0.8s cubic-bezier(0.4, 0, 0.2, 1), color 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .scanlines::before {
+        content: " ";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 118, 0.06));
+        z-index: 2;
+        background-size: 100% 4px, 3px 100%;
+        pointer-events: none;
+      }
+
+      .cyber-border {
+        clip-path: polygon(0 0, 100% 0, 100% 85%, 90% 100%, 0 100%);
+      }
+
+      .noise {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: url('https://grainy-gradients.vercel.app/noise.svg');
+        opacity: 0.05;
+        pointer-events: none;
+        z-index: 10;
+      }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/"
+  }
+}
+</script>
+</head>
+<body class="theme-transition">
+    <div id="root"></div>
+    <script type="module" src="index.tsx"></script>
+</body>
+</html>
